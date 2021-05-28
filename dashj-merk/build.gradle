@@ -1,0 +1,171 @@
+plugins {
+    id 'com.android.library'
+    id 'maven-publish'
+    id 'maven'
+    id 'signing'
+    //id 'kotlin-android'
+}
+
+android {
+    compileSdkVersion 30
+    buildToolsVersion "30.0.3"
+
+    defaultConfig {
+        minSdkVersion 21
+        targetSdkVersion 30
+        versionCode 1
+        versionName "0.19-SNAPSHOT"
+
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        consumerProguardFiles "consumer-rules.pro"
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+    //kotlinOptions {
+    //    jvmTarget = '1.8'
+    //    noStdlib = true
+    //}
+}
+
+apply plugin: 'org.mozilla.rust-android-gradle.rust-android'
+
+cargo {
+    module  = "./src/main/rust"       // Or whatever directory contains your Cargo.toml
+    libname = "dashj-merk"          // Or whatever matches Cargo.toml's [package] name.
+    targets = ["arm", "arm64", "x86", "x86_64"]  // See bellow for a longer list of options
+    prebuiltToolchains = true
+    profile = 'release'
+    verbose = true
+    rustupChannel = "nightly-2021-03-25"
+    targetDirectory = './build/rust'
+}
+
+tasks.whenTaskAdded { task ->
+    if ((task.name == 'javaPreCompileDebug' || task.name == 'javaPreCompileRelease')) {
+        task.dependsOn 'cargoBuild'
+    }
+}
+
+preBuild.dependsOn "cargoBuild"
+
+dependencies {
+
+    //implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
+    //testImplementation 'junit:junit:4.+'
+    //androidTestImplementation 'com.android.support.test:runner:1.0.2'
+    //androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
+}
+group 'org.dashj.android'
+version '0.19-SNAPSHOT'
+
+//compileKotlin {
+//    kotlinOptions.jvmTarget = "1.8"
+//}
+//compileTestKotlin {
+//    kotlinOptions.jvmTarget = "1.8"
+//}
+
+
+task sourcesJar(type: Jar) {
+    classifier 'sources'
+    from android.sourceSets.main.java.srcDirs
+}
+
+//publishing {
+//    tasks.withType(Sign)*.enabled = false
+//    publications {
+//       maven(MavenPublication) {
+//            artifact sourcesJar
+//            from android.components.java
+//        }
+//    }
+//}
+
+tasks.withType(org.jetbrains.kotlin.gradle.tasks.KotlinCompile).all {
+    kotlinOptions {
+        jvmTarget = "1.8"
+    }
+}
+
+//assemble.dependsOn(publishToMavenLocal)
+
+//test {
+ //   useJUnitPlatform()
+//}
+
+task javadoc(type: Javadoc) {
+    source = android.sourceSets.main.java.srcDirs
+    classpath += project.files(android.getBootClasspath().join(File.pathSeparator))
+}
+
+task javadocJar(type: Jar, dependsOn: javadoc) {
+    classifier = 'javadoc'
+    from javadoc.destinationDir
+}
+
+artifacts {
+    archives javadocJar
+    archives sourcesJar
+}
+
+
+signing {
+    required { gradle.taskGraph.hasTask("publish") }
+    sign configurations.archives
+}
+
+uploadArchives {
+    repositories {
+        mavenDeployer {
+            beforeDeployment { MavenDeployment deployment -> signing.signPom(deployment) }
+
+            repository(url: "https://s01.oss.sonatype.org/service/local/staging/deploy/maven2/") {
+                authentication(userName: project.hasProperty('ossrhUsername')?project.findProperty('ossrhUsername'):'', password: project.hasProperty('ossrhPassword')?project.findProperty('ossrhPassword'):'')
+            }
+
+            snapshotRepository(url: "https://s01.oss.sonatype.org/content/repositories/snapshots/") {
+                authentication(userName: project.hasProperty('ossrhUsername')?project.findProperty('ossrhUsername'):'', password: project.hasProperty('ossrhPassword')?project.findProperty('ossrhPassword'):'')
+            }
+
+            pom.project {
+                name 'DashJ Merk Android'
+                packaging 'jar'
+                groupId 'org.dashj.android'
+                artifactId 'dashj-merk'
+                version '0.19-SNAPSHOT'
+                description 'Dash Merk Library for Android'
+                url 'https://github.com/hashengineering/dashj-merk-android'
+
+                scm {
+                    connection 'scm:svn:https://github.com/hashengineering/dashj-merk-android'
+                    developerConnection 'scm:svn:https://github.com/hashengineering/dashj-merk-android'
+                    url 'https://github.com/hashengineering/dashj-merk-android'
+                }
+
+                licenses {
+                    license {
+                        name 'MIT'
+                        url 'https://opensource.org/licenses/MIT'
+                    }
+                }
+
+                developers {
+                    developer {
+                        id 'hashengineering'
+                        name 'HashEngineering'
+                        email 'hashengineeringsolutions@gmail.com'
+                    }
+                }
+            }
+        }
+    }
+}
