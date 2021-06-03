@@ -40,13 +40,14 @@ apply plugin: 'org.mozilla.rust-android-gradle.rust-android'
 
 cargo {
     module  = "./src/main/rust"       // Or whatever directory contains your Cargo.toml
-    libname = "dashj-merk"          // Or whatever matches Cargo.toml's [package] name.
+    libname = "dashj_merk"          // Or whatever matches Cargo.toml's [package] name.
     targets = ["arm", "arm64", "x86", "x86_64"]  // See bellow for a longer list of options
     prebuiltToolchains = true
     profile = 'release'
-    verbose = true
+    verbose = false
     rustupChannel = "nightly-2021-03-25"
     targetDirectory = './build/rust'
+    targetIncludes = ['libdashj_merk.so']
 }
 
 tasks.whenTaskAdded { task ->
