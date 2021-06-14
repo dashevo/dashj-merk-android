@@ -50,11 +50,11 @@ cargo {
     targetIncludes = ['libdashj_merk.so']
 }
 
-tasks.whenTaskAdded { task ->
-    if ((task.name == 'javaPreCompileDebug' || task.name == 'javaPreCompileRelease')) {
-        task.dependsOn 'cargoBuild'
-    }
-}
+//tasks.whenTaskAdded { task ->
+//    if ((task.name == 'javaPreCompileDebug' || task.name == 'javaPreCompileRelease')) {
+//        task.dependsOn 'cargoBuild'
+//    }
+//}
 
 preBuild.dependsOn "cargoBuild"
 
