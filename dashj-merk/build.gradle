@@ -86,9 +86,9 @@ preBuild.dependsOn 'copyX86Library'
 preBuild.dependsOn 'copyX64Library'
 
 dependencies {
-
+    implementation 'org.dashj.android:dashj-merk:0.19-SNAPSHOT'
     //implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
-    //testImplementation 'junit:junit:4.+'
+    testImplementation 'junit:junit:4.+'
     //androidTestImplementation 'com.android.support.test:runner:1.0.2'
     //androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
 }
