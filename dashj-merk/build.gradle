@@ -50,13 +50,40 @@ cargo {
     targetIncludes = ['libdashj_merk.so']
 }
 
-//tasks.whenTaskAdded { task ->
-//    if ((task.name == 'javaPreCompileDebug' || task.name == 'javaPreCompileRelease')) {
-//        task.dependsOn 'cargoBuild'
-//    }
-//}
+tasks.whenTaskAdded { task ->
+    if ((task.name == 'javaPreCompileDebug' || task.name == 'javaPreCompileRelease')) {
+        task.dependsOn 'cargoBuild'
+    }
+}
 
 preBuild.dependsOn "cargoBuild"
+
+task copyArm8Library(type: Copy) {
+    println("copy operation")
+    from 'src/main/rust/target/aarch64-linux-android/release/libdashj_merk.so'
+    into 'src/main/jniLibs/arm64-v8a'
+}
+
+task copyArm7Library(type: Copy) {
+    from './src/main/rust/target/armv7-linux-androideabi/release/libdashj_merk.so'
+    into './src/main/jniLibs/armeabi-v7a'
+}
+
+task copyX86Library(type: Copy) {
+    println("copy operation")
+    from 'src/main/rust/target/i686-linux-android/release/libdashj_merk.so'
+    into 'src/main/jniLibs/x86'
+}
+
+task copyX64Library(type: Copy) {
+    from './src/main/rust/target/x86_64-linux-android/release/libdashj_merk.so'
+    into './src/main/jniLibs/x86_64'
+}
+
+preBuild.dependsOn 'copyArm8Library'
+preBuild.dependsOn 'copyArm7Library'
+preBuild.dependsOn 'copyX86Library'
+preBuild.dependsOn 'copyX64Library'
 
 dependencies {
 
