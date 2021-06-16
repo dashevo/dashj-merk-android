@@ -15,4 +15,4 @@ hex = { version = "0.3.0" }
 
 [lib]
 #name = "dashj-merk"
-crate-type = ["dylib"]
+crate-type = ["cdylib"]
