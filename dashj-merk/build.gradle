@@ -64,21 +64,25 @@ preBuild.dependsOn "cargoBuild"
 
 task copyArm8Library(type: Copy) {
     from 'src/main/rust/target/aarch64-linux-android/release/libdashj_merk.so'
+    from android.ndkDirectory.getPath() + '/sources/cxx-stl/llvm-libc++/libs/arm64-v8a/libc++_shared.so'
     into 'src/main/jniLibs/arm64-v8a'
 }
 
 task copyArm7Library(type: Copy) {
     from './src/main/rust/target/armv7-linux-androideabi/release/libdashj_merk.so'
+    from android.ndkDirectory.getPath() + '/sources/cxx-stl/llvm-libc++/libs/armeabi-v7a/libc++_shared.so'
     into './src/main/jniLibs/armeabi-v7a'
 }
 
 task copyX86Library(type: Copy) {
     from 'src/main/rust/target/i686-linux-android/release/libdashj_merk.so'
+    from android.ndkDirectory.getPath() + '/sources/cxx-stl/llvm-libc++/libs/x86/libc++_shared.so'
     into 'src/main/jniLibs/x86'
 }
 
 task copyX64Library(type: Copy) {
     from './src/main/rust/target/x86_64-linux-android/release/libdashj_merk.so'
+    from android.ndkDirectory.getPath() + '/sources/cxx-stl/llvm-libc++/libs/x86_64/libc++_shared.so'
     into './src/main/jniLibs/x86_64'
 }
 
