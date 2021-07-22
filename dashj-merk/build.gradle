@@ -49,7 +49,7 @@ cargo {
     prebuiltToolchains = true
     profile = 'release'
     verbose = false
-    rustupChannel = "nightly-2021-03-25"
+    rustupChannel = "nightly"
     targetDirectory = './build/rust'
     targetIncludes = ['libdashj_merk.so']
 }
@@ -99,7 +99,7 @@ dependencies {
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
 }
 group 'org.dashj.android'
-version '0.19-SNAPSHOT'
+version '0.20-SNAPSHOT'
 
 //compileKotlin {
 //    kotlinOptions.jvmTarget = "1.8"
@@ -130,7 +130,7 @@ tasks.withType(org.jetbrains.kotlin.gradle.tasks.KotlinCompile).all {
     }
 }
 
-//assemble.dependsOn(publishToMavenLocal)
+assemble.dependsOn(publishToMavenLocal)
 
 //test {
  //   useJUnitPlatform()
@@ -175,7 +175,7 @@ uploadArchives {
                 packaging 'jar'
                 groupId 'org.dashj.android'
                 artifactId 'dashj-merk'
-                version '0.19-SNAPSHOT'
+                version '0.20-SNAPSHOT'
                 description 'Dash Merk Library for Android'
                 url 'https://github.com/hashengineering/dashj-merk-android'
 
