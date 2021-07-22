@@ -1,18 +1,20 @@
 [package]
 name = "dashj_merk"
-version = "0.18.0"
+version = "0.20.0"
 authors = ["HashEngineering <hashengineeringsolutions@gmail.com>"]
 edition = "2018"
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
-merk = { git = "https://github.com/dashevo/merk", branch = "close-and-destroy" }
-#merk = { git = "https://github.com/nomic-io/merk", branch = "develop" }
-#merk = "2.0.1"
 jni = { version = "0.5"}#, default-features = false }
 hex = { version = "0.3.0" }
 
+[dependencies.merk]
+git = "https://github.com/QuantumExplorer/merk"
+branch = "improvement/proofRoot2"
+features = ["verify"]
+default-features = false
+
 [lib]
-#name = "dashj-merk"
 crate-type = ["cdylib"]
