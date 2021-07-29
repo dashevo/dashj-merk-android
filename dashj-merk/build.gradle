@@ -176,7 +176,7 @@ uploadArchives {
             pom.project {
                 name 'DashJ Merk Android'
                 packaging 'aar'
-                groupId group
+                groupId 'org.dashj.android'
                 artifactId 'dashj-merk'
                 version version
                 description 'Dash Merk Library for Android'
