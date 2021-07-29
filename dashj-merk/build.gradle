@@ -14,7 +14,7 @@ android {
         minSdkVersion 21
         targetSdkVersion 30
         versionCode 1
-        versionName "0.19-SNAPSHOT"
+        versionName "0.20-SNAPSHOT"
 
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         consumerProguardFiles "consumer-rules.pro"
@@ -38,6 +38,8 @@ android {
     packagingOptions {
         pickFirst '**/*.so'
     }
+
+    ndkVersion = "21.3.6528147"
 }
 
 apply plugin: 'org.mozilla.rust-android-gradle.rust-android'
@@ -92,9 +94,9 @@ preBuild.dependsOn 'copyX86Library'
 preBuild.dependsOn 'copyX64Library'
 
 dependencies {
-    implementation 'org.dashj.android:dashj-merk:0.19-SNAPSHOT'
-    //implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
-    testImplementation 'junit:junit:4.+'
+    //implementation 'org.dashj.android:dashj-merk:0.20-SNAPSHOT'
+    implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
+    //testImplementation 'junit:junit:4.13.2'
     androidTestImplementation 'com.android.support.test:runner:1.0.2'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
 }
@@ -113,16 +115,17 @@ task sourcesJar(type: Jar) {
     classifier 'sources'
     from android.sourceSets.main.java.srcDirs
 }
-
-//publishing {
-//    tasks.withType(Sign)*.enabled = false
-//    publications {
-//       maven(MavenPublication) {
-//            artifact sourcesJar
-//            from android.components.java
-//        }
-//    }
-//}
+afterEvaluate {
+    publishing {
+        tasks.withType(Sign)*.enabled = false
+        publications {
+            maven(MavenPublication) {
+                artifact sourcesJar
+                from components.release
+            }
+        }
+    }
+}
 
 tasks.withType(org.jetbrains.kotlin.gradle.tasks.KotlinCompile).all {
     kotlinOptions {
@@ -172,10 +175,10 @@ uploadArchives {
 
             pom.project {
                 name 'DashJ Merk Android'
-                packaging 'jar'
-                groupId 'org.dashj.android'
+                packaging 'aar'
+                groupId group
                 artifactId 'dashj-merk'
-                version '0.20-SNAPSHOT'
+                version version
                 description 'Dash Merk Library for Android'
                 url 'https://github.com/hashengineering/dashj-merk-android'
 
