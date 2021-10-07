@@ -3,7 +3,6 @@ plugins {
     id 'maven-publish'
     id 'maven'
     id 'signing'
-    //id 'kotlin-android'
 }
 
 android {
@@ -14,7 +13,7 @@ android {
         minSdkVersion 21
         targetSdkVersion 30
         versionCode 1
-        versionName "0.20-SNAPSHOT"
+        versionName "0.21-SNAPSHOT"
 
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         consumerProguardFiles "consumer-rules.pro"
@@ -101,7 +100,7 @@ dependencies {
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
 }
 group 'org.dashj.android'
-version '0.20-SNAPSHOT'
+version '0.21-SNAPSHOT'
 
 //compileKotlin {
 //    kotlinOptions.jvmTarget = "1.8"
