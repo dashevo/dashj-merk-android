@@ -29,10 +29,6 @@ android {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
     }
-    //kotlinOptions {
-    //    jvmTarget = '1.8'
-    //    noStdlib = true
-    //}
 
     packagingOptions {
         pickFirst '**/*.so'
@@ -101,14 +97,6 @@ dependencies {
 }
 group 'org.dashj.android'
 version '0.21-SNAPSHOT'
-
-//compileKotlin {
-//    kotlinOptions.jvmTarget = "1.8"
-//}
-//compileTestKotlin {
-//    kotlinOptions.jvmTarget = "1.8"
-//}
-
 
 task sourcesJar(type: Jar) {
     classifier 'sources'
