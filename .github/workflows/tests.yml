@@ -17,17 +17,12 @@ jobs:
     steps:
     # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
     - uses: actions/checkout@v2
-    - uses: nttld/setup-ndk@v1
-      id: setup-ndk
-      with:
-        ndk-version: 21e
-        add-to-path: false
-    - run: ./build.sh
-      env:
-        ANDROID_NDK_HOME: ${{ steps.setup-ndk.outputs.ndk-path }}
     # Runs a set of commands using the runners shell
     - name: Update rust
       run: |
         rustup install nightly
+    - name: Install NDK
+      run: |
+        $ANDROID_HOME/tools/bin/sdkmanager --install "ndk;21.3.6528147" --channel=0
     - name: Build
       run: ./gradlew assemble
