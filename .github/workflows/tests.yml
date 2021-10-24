@@ -20,7 +20,7 @@ jobs:
     - uses: nttld/setup-ndk@v1
       id: setup-ndk
       with:
-        ndk-version: "21.3.6528147"
+        ndk-version: 21e
         add-to-path: false
     - run: ./build.sh
       env:
