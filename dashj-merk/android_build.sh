@@ -4,10 +4,11 @@ min_ver=23
 ANDROID_NDK_HOME=$ANDROID_SDK_HOME/ndk
 # verify before executing this that you have the proper targets installed
 cd ./src/main/rust
-cargo ndk +nightly-2021-03-25 --target aarch64-linux-android --android-platform ${min_ver} -- build --release
-cargo ndk +nightly-2021-03-25 --target armv7-linux-androideabi --android-platform ${min_ver} -- build --release
-cargo ndk +nightly-2021-03-25 --target i686-linux-android --android-platform ${min_ver} -- build --release
-cargo ndk +nightly-2021-03-25 --target x86_64-linux-android --android-platform ${min_ver} -- build --release
+
+cargo ndk +nightly --target aarch64-linux-android --android-platform ${min_ver} -- build --release
+cargo ndk +nightly --target armv7-linux-androideabi --android-platform ${min_ver} -- build --release
+cargo ndk +nightly --target i686-linux-android --android-platform ${min_ver} -- build --release
+cargo ndk +nightly --target x86_64-linux-android --android-platform ${min_ver} -- build --release
 cd ../../..
 
 # moving libraries to the android project
