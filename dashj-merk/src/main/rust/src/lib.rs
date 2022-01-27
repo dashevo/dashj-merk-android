@@ -1,5 +1,4 @@
-use std::os::raw::{c_char};
-use std::ffi::{CString, CStr};
+use std::ffi::{CString};
 
 #[allow(non_snake_case)]
 pub mod android {
@@ -89,6 +88,4 @@ pub mod android {
             }
         }
     }
-
-
 }
